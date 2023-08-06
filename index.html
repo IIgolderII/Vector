@@ -29,19 +29,21 @@
     </canvas>
     <script>
         const canvas = document.getElementById("vector");
+        canvas.width = 1000;
+        canvas.height = 500;
         const ctx = canvas.getContext("2d");
 
 
         class Player {
             constructor() {
-                this.x = 50
+                this.x = 150
                 this.y = canvas.height / 2
                 this.direction = 1
-                this.speed = 1.5
+                this.speed = 4
                 this.keys = [" "]
                 this.keyDown = false
                 this.mouseDown = false
-                this.width = 10
+                this.width = 30
 
                 document.addEventListener("keydown", (e) => {
                     if (!this.keyDown) {
@@ -87,8 +89,8 @@
         class Object {
             constructor() {
                 this.x = canvas.width
-                this.speed = Math.random() * .5 + 1
-                this.width = Math.random() * 20 + 20
+                this.speed = Math.random() * 1 + 2
+                this.width = Math.random() * 70 + 40
                 this.y = Math.random() * (canvas.height - this.width * 2) + this.width
             }
 
@@ -116,7 +118,7 @@
 
         var player = new Player
         var objects = [new Object()]
-        var objectRate = 1000 * 1
+        var objectRate = 1000 * 2
         var end = false
         var lastObjectTime = Date.now()
         game()
@@ -142,10 +144,13 @@
             if (lastObjectTime + objectRate < Date.now()) {
                 objects.push(new Object());
                 lastObjectTime = Date.now()
+                if (objectRate > 500) {
+                    objectRate *= .99;
+                }
             }
 
             if (end) {
-                console.log("end");
+                // end
             } else {
                 requestAnimationFrame(game)
             }
